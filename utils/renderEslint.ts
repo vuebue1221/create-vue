@@ -13,7 +13,7 @@ const eslintDeps = eslintTemplatePackage.devDependencies
 
 export default function renderEslint(
   rootDir,
-  { needsTypeScript, needsCypress, needsCypressCT, needsPrettier }
+  { needsTypeScript, needsCypress, needsCypressCT, needsPrettier, needsEslintAirbnb }
 ) {
   const additionalConfig: Linter.Config = {}
   const additionalDependencies = {}
@@ -32,6 +32,14 @@ export default function renderEslint(
     ]
 
     additionalDependencies['eslint-plugin-cypress'] = eslintDeps['eslint-plugin-cypress']
+  }
+  if (needsEslintAirbnb) {
+    additionalConfig.extends = ['@vue/eslint-config-airbnb']
+    additionalConfig.rules = {
+      'linebreak-style': 0,
+      semi: 0
+    }
+    additionalDependencies['@vue/eslint-config-airbnb'] = eslintDeps['@vue/eslint-config-airbnb']
   }
 
   const { pkg, files } = createESLintConfig({
